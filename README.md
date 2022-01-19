@@ -1,181 +1,90 @@
-body {
-  font-family: 'Poppins',sans-serif;
-}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title>Niftycase Example</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="js/moment.js"></script>
+    <style>
+    .made-by
+    {
+      display: none !important;
+      font-size: 12px;
+      margin: 0.2rem 0.4rem;
+    }
+    .made-by,
+    .made-by a,
+    .made-by a:visited
+    {
+      display: none !important;
+      color: #b0b2bd;
+    }
+    .made-by a:hover {
+      display: none !important;
+      color: #8492a2;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="nft-slider-1" class="nft-slider">
+      <header>
+        <div>
+          <img class="eth-logo" id="eth-logo" width="0" height="0" src="media/eth.png" alt="">
+        </div>
+        <nav></nav>
+      </header>
+      <section class="nft-content">
+      </section>
+      <p class="made-by">Made with <a href="https://niftycase.io" target="_blank">Niftycase</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/nft_scroller.js"></script>
+    <script src="js/nft_slider.js"></script>
+    <script type="text/javascript">
+      (function() {
+        "use strict";
 
-.nft-slider {
-  display: flex;
-  flex-direction: column;
-}
+        $(document).ready(function() {
 
-.ntf-slider header {
-  display: flex;
-  flex-direction: row;
-  line-height: 24px;
-}
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const params = Object.fromEntries(urlSearchParams.entries());
+          if (params.view && parseInt(params.view) === 2) {
 
-.nft-slider header > div {
-  display: inline-block;
-  margin-top: 4px;
-  margin-bottom: 8px;
-}
+            $('head').append('<link rel="stylesheet" href="css/nft_scroller.css" />');
+            if (params.templ) {
+              $('head').append($(`<link rel="stylesheet" href="css/nft_scroller.${params.templ}.css"))>`));
+            }
+            $('.nft-slider').each(function() {
+              $(this).nftScroller({
+                addr: params.addr
+              });
+              if (params.bg) {
+                $('body').css('background-color', params.bg);
+              }
+            });
 
-.nft-slider header nav
-{
-  display: block;
-  text-align: right;
-  float: right;
-  margin-top: 4px;
-  margin-bottom: 8px;
-  letter-spacing: 4px;
-  font-size: 18px;
-  color: #aaa;
-  user-select: none;
-}
+          } else {
 
-.nft-slider header nav a
-{
-  padding: 0 2px;
-  cursor: pointer;
-  font-weight: 700 !important;
-}
+            $('head').append('<link rel="stylesheet" href="css/nft_slider.css" />');
+            if (params.templ) {
+              $('head').append($(`<link rel="stylesheet" href="css/nft_slider.${params.templ}.css"))>`));
+            }
+            $('.nft-slider').each(function(index) {
+              $(this).nftSlider({
+                addr: params.addr
+              });
+              if (params.bg) {
+                $('body').css('background-color', params.bg);
+              }
+            });
 
-.nft-slider header nav a:hover,
-.nft-slider header nav .active
-{
-  color: #333 !important;
-  font-weight: 700 !important;
-}
+          }
 
-.eth-addr,
-.eth-addr:visited {
-  vertical-align: super;
-  color: #fff !important;
-  text-decoration: none;
-}
-
-.eth-addr:hover {
-  text-decoration: underline;
-}
-
-.eth-logo {
-  width: 24px;
-  height: auto;
-}
-
-
-
-
-.slide {
-  display: none;
-  /*overflow-x: scroll;*/
-  grid-gap: 0px;
-  grid-template-columns: repeat(4, minmax(140px, 1fr));
-  /* grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); */
-}
-
-.slide p img {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  border-radius: 50%;
-  margin-bottom: 1px;
-  vertical-align: middle;
-}
-
-.slide > div {
-  background-color: #202020;
-  margin: 0rem 0.4rem 1.2rem;
-  padding: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, .2);
-}
-
-.slide div p {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.nft-content > .active {
-  display: grid;
-}
-
-.nft-card-img:before {
-  content: '';
-  display: block;
-  width: 100%;
-  padding-top: 100%;
-}
-
-.nft-card-img {
-  display: block;
-  border-radius: 6px;
-  box-sizing: border-box;
-  background-color: #f3f3f3;
-  background-size: contain; /*cover;*/
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-
-
-.collection-name {
-  color: #707980;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.asset-name {
-  color: #fff !important;
-  font-size: 16px;
-  font-weight: 500;
-  margin: -6px 0px 8px 0px;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.collection-name a,
-.collection-name a:visited
-{
-  color: #707980;
-  text-decoration: none;
-}
-
-.asset-name a,
-.asset-name a:visited
-{
-  color: #fff !important;
-  text-decoration: none;
-}
-
-.collection-name:hover,
-.collection-name a:hover,
-.asset-name:hover,
-.asset-name a:hover
-{
-  color: #333;
-}
-
-
-
-
-
-@media screen and (max-width: 586px) {
-  .asset-name {
-    font-size: 14px;
-  }
-  .collection-name {
-    font-size: 12px;
-  }
-  .slide {
-    grid-template-columns: repeat(2, minmax(140px, 1fr));
-    /* grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); */
-  }
-}
+        });
+      })();
+    </script>
+  </body>
+</html>
