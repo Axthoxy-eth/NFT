@@ -1,9 +1,3 @@
-# NFT
-nft collection
-
-link to site: https://axthony98.github.io/NFT/
-
-explore this data story...
 (function($) {
   "use strict";
 
